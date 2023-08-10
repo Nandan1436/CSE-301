@@ -5,7 +5,7 @@ using namespace std;
 struct point{
     int val;
     int direc;
-}c[7][6];
+}c[100][100];
 
 void printFunc(int i,int j,string x,string y){
     if(i==0 && j==0)return;
@@ -27,9 +27,7 @@ void printFunc(int i,int j,string x,string y){
 
 }
 
-void EditEd(string first,string second){
-    int m=7;
-    int n=6;
+void EditEd(string first,string second,int m,int n){
     int i,j;
     c[0][0].val=0;
     c[0][0].direc=0;
@@ -72,15 +70,19 @@ void EditEd(string first,string second){
         }
         cout<<endl;
     }
-    printFunc(6,5,first,second);
+    printFunc(m-1,n-1,first,second);
 
 }
 
 int main()
 {
     string first,second;
-    cin>>first>>second;
-    EditEd(first,second);
+    int size1,size2;
+    cin>>size1;
+    cin>>first;
+    cin>>size2;
+    cin>>second;
+    EditEd(first,second,size1,size2);
 
     return 0;
 }
