@@ -29,6 +29,8 @@ void printFunc(int i,int j,string x,string y){
 
 void EditEd(string first,string second,int m,int n){
     int i,j;
+    m++;
+    n++;
     c[0][0].val=0;
     c[0][0].direc=0;
     for(i=1;i<n;i++){
