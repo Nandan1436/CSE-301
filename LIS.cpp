@@ -5,11 +5,12 @@ using namespace std;
 int L[100];
 int L2[100];
 int previous[100];
-int index;
+int pos;
 
 void LIS(int num[],int n)
 {
-    int i,index=0,prev[n+1];
+    int i,prev[n+1];
+    int index=0;
     L[0]=-INT_MAX;
     L2[0]=-1;
     previous[0]=-1;
@@ -30,16 +31,18 @@ void LIS(int num[],int n)
             L2[s]=i;
             previous[i]=L2[s-1];
         }
-        for(int k=1;k<=index;k++)cout<<L[k]<<" ";
-        cout<<endl;
+        //for(int k=1;k<=index;k++)cout<<L2[k]<<" ";
+        //cout<<endl;
+
 
     }
-    for(i=0;i<=n;i++)cout<<previous[i]<<" ";
-    cout<<endl;
+    pos=index;
+    //for(i=0;i<=n;i++)cout<<previous[i]<<" ";
+    //cout<<endl;
     //for(i=1;i<=index;i++)cout<<L[i]<<" ";
 }
 
-void printLIS(int num[],int n)
+/*void printLIS(int num[],int n)
 {
     int j=0,i,largest=-INT_MAX;
     int arr[n+1];
@@ -60,6 +63,13 @@ void printLIS(int num[],int n)
         j--;
     }
 
+}*/
+
+void printLIS(int num[],int i)
+{
+    if(i==-1) return;
+    printLIS(num,previous[i]);
+    cout<<num[i]<<" ";
 }
 
 int main()
@@ -76,7 +86,9 @@ int main()
     for(i=1;i<=n;i++)cout<<num[i]<<" ";
     cout<<endl;
     LIS(num,n);
-    printLIS(num,n);
+    for(i=0;i<=n;i++)if(num[i]==L[pos])break;
+    cout<<"LIS: ";
+    printLIS(num,i);
 
     return 0;
 }
