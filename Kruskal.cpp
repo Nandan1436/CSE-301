@@ -27,7 +27,6 @@ void readInput()
   }
 }
 
-
 bool compare(const pair<int,pair<string,string>>a, const pair<int,pair<string,string>>b)
 {
     return a.first<b.first;
@@ -97,10 +96,5 @@ int main()
         cout<<endl;
     }
     cout<<"Total Weight: "<<totalWeight<<endl;
-    //for(int i=0;i<Rank.size();i++)cout<<parent[i]<<" ";
-    for(auto i=parent.begin();i!=parent.end();i++){
-        cout<<i->second<<" ";
-    }
-    cout<<endl;
     return 0;
 }
