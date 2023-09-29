@@ -4,9 +4,8 @@ using namespace std;
 
 vector<pair<int,pair<string,string>>>graph;
 vector<pair<int,pair<string,string>>>tree;
-vector<string>parent;
-vector<int>Rank;
-set<string>vertex;
+map<string,string>parent;
+map<string,int>ranks;
 int totalWeight;
 
 void readInput()
@@ -23,23 +22,11 @@ void readInput()
         temp1.first=w;
         temp1.second=temp;
         graph.push_back(temp1);
-        vertex.insert(a);
-        vertex.insert(b);
+        parent.insert({a,""});
+        ranks.insert({b,0});
   }
 }
 
-int findIndex(string ch)
-{
-    int pos=0;
-    set<string>::iterator it;
-    for(it=vertex.begin();it!=vertex.end();it++){
-        if(ch==*it){
-            break;
-        }
-        else pos++;
-    }
-    return pos;
-}
 
 bool compare(const pair<int,pair<string,string>>a, const pair<int,pair<string,string>>b)
 {
@@ -53,42 +40,38 @@ void sortWeight()
 
 string findSet(string x)
 {
-    if(x!=parent[findIndex(x)]){
-        parent[findIndex(x)]=findSet(parent[findIndex(x)]);
+    if(x==parent[x]){
+        return x;
     }
-    return parent[findIndex(x)];
-}
+    return parent[x]=findSet(parent[x]);
 
-void link(string u,string v)
-{
-    int x=findIndex(u),y=findIndex(v);
-    if(Rank[x]>Rank[y]){
-        parent[y]=u;
-    }
-    else {
-        parent[x]=v;
-        if(Rank[x]==Rank[y]){
-            Rank[y]++;
-        }
-    }
 }
 
 void Union(string u,string v)
 {
-    link(u,v);
+    u=findSet(u);
+    v=findSet(v);
+    if(u!=v){
+        if(ranks[u]<ranks[v]){
+            swap(u,v);
+        }
+        parent[v]=u;
+        ranks[u]+=ranks[v];
+    }
+
 }
 
 void makeSet(string x)
 {
-    parent.push_back(x);
-    Rank.push_back(0);
+    parent[x]=x;
+    ranks[x]=1;
 }
 
 void kruskal()
 {
-    set<string>::iterator it;
-    for(it=vertex.begin();it!=vertex.end();it++){
-        makeSet(*it);
+    map<string,string>::iterator it;
+    for(it=parent.begin();it!=parent.end();it++){
+        makeSet(it->first);
     }
     sortWeight();
     for(int i=0;i<graph.size();i++){
@@ -97,7 +80,7 @@ void kruskal()
         string u=findSet(x),v=findSet(y);
         if(u!=v){
             tree.push_back(graph[i]);
-            Union(u,v);
+            Union(x,y);
         }
     }
 }
@@ -115,6 +98,9 @@ int main()
     }
     cout<<"Total Weight: "<<totalWeight<<endl;
     //for(int i=0;i<Rank.size();i++)cout<<parent[i]<<" ";
-
+    for(auto i=parent.begin();i!=parent.end();i++){
+        cout<<i->second<<" ";
+    }
+    cout<<endl;
     return 0;
 }
